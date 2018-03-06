@@ -12,8 +12,8 @@ services:
       - catalogue/database.sql
     environment:
       MYSQL_DATABASE: "shop"
-      MYSQL_USER: "username"
-      MYSQL_PASSWORD: "password"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "asdf1234"
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
