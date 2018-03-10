@@ -26,5 +26,9 @@
     helpers.simpleHttpRequest(endpoints.tagsUrl, res, next);
   });
 
+  app.post("/newProduct", function (req, res, next){
+    helpers.simpleHttpPost(endpoints.newProductUrl, req.body, res, next);
+  });
+
   module.exports = app;
 }());

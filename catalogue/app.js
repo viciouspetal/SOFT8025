@@ -24,19 +24,36 @@ var server = http.createServer(function (request, response) {
     var url1 = url.parse(request.url);
     if (request.method == 'POST') {
         switch (path) {
-
-
-            /* TODO */
             case "/newProduct":
+                var body="";
+                request.on('data', function (data) {
+                    body += data;
+                });
 
+                request.on('end', function () {
+                    var product = qs.parse(body);
+                    response.writeHead(201, {
+                        'Content-Type': 'text/html',
+                        'Access-Control-Allow-Origin': '*'
+                    });
+                    console.log(JSON.stringify(product, null, 2));
+                    var insertQuery = "INSERT INTO products (name, quantity, price, image) VALUES(?,?,?,?)";
+                    db.query(
+                        insertQuery,
+                        [product.name, 1, product.price, product.image],
+                        function(err) {
+                            if (err) throw err;
+                            response.end();
+                            console.log("Products inserted");
+                        }
+                    );
 
+                });
                 break;
         } //switch
     }
     else {
         switch (path) {
-
-
             case "/getProducts"    :
                 console.log("getProducts");
                 response.writeHead(200, {
@@ -44,7 +61,6 @@ var server = http.createServer(function (request, response) {
                     'Access-Control-Allow-Origin': '*'
                 });
                 var query = "SELECT * FROM products ";
-
 
                 db.query(
                     query,

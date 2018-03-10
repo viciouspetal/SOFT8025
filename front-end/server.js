@@ -27,6 +27,7 @@ app.use(cookieParser());
 app.use(helpers.errorHandler);
 app.use(helpers.sessionMiddleware);
 //app.use(morgan("dev", {}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var domain = "";
 process.argv.forEach(function (val, index, array) {
