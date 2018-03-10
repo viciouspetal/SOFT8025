@@ -1,0 +1,21 @@
+{
+  "name": "SOFT8025",
+  "version": "1.0.0",
+  "description": "College Assignment for Scalable Microservices using code template provided by lecturer",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"cd cart && node app.js\" \"cd catalogue && node app.js\" \"cd front-end && node server.js\" \"cd users && node app.js\"",
+    "update": "cd cart && npm i && cd ../catalogue && npm i && cd ../front-end && npm i && cd ../users && npm i"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viciouspetal/SOFT8025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viciouspetal/SOFT8025/issues"
+  },
+  "homepage": "https://github.com/viciouspetal/SOFT8025#readme"
+}
