@@ -53,6 +53,9 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+        span.shop-total {
+            font-size: xx-large;
+        }
     </style>
 
 
@@ -62,7 +65,7 @@
         var headers = [
             "Product Name", "Price", "Picture", "Quantity", "Buy Button"];
         var Cartheaders = [
-            "Product Name", "Price", "Picture", "delete", "Quantity", "Total"];
+            "Product Name", "Price", "Picture", "Delete", "Quantity", "Total"];
         $(document).ready(function () {
 
         });
@@ -182,7 +185,7 @@
             for (i = 0; i < products.length; i++) {
                 out += "<tr>";
                 out += '<td>' + products[i].name + '</td>';
-                out += '<td>' + products[i].price + '</td>';
+                out += '<td>' + formatToCurency(products[i].price) + '</td>';
                 out += '<td> <img src="';
                 out += "images/" + products[i].image + '" style="width:104px;height:100px;">';
                 out += '<td>' + 'quantity <input type="text" value="1" name="';
@@ -198,6 +201,7 @@
         }
 
         function displayCart(cart, name) {
+
             var out = "<h1> Shopping Cart</h1><table border=1 width=100%>";
             var i;
             out += '<tr style="font-size: 20px;" >';
@@ -209,23 +213,27 @@
             for (i = 0; i < cart.length; i++) {
                 out += "<tr>";
                 out += '<td>' + cart[i].name + '</td>';
-                out += '<td>' + cart[i].price + '</td>';
+                out += '<td>' + formatToCurency(cart[i].price) + '</td>';
                 out += '<td> <img src="';
                 out += "images/" + cart[i].image + '" style="width:104px;height:100px;">';
                 out += '<td> <button onclick="deleteCartItem(' + cart[i].cartid;
                 out1 = ")" + '">Delete</button></td>';
                 out += out1;
                 out += '<td>' + cart[i].quantity + '</td>';
-                out += '<td>' + cart[i].price * cart[i].quantity + '</td>';
+                out += '<td>' + formatToCurency(cart[i].price * cart[i].quantity) + '</td>';
                 out += "</tr>";
                 total += cart[i].price * cart[i].quantity;
             }
             out += "</table>";
             out += "<br>";
-            out += "Total: " + total + '<br>';
+            out += "<span class=\"shop-total\"> Total: " + formatToCurency(total) + "</span>"+ '<br>';
             out += '<button onclick="checkout()">Checkout</button><br>';
             out += '<div id="cartmessage"></div>';
             document.getElementById(name).innerHTML = out;
+        }
+
+        function formatToCurency(toBeFormattedFormat){
+            return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'EUR', maximumSignificantDigits: 3 }).format(toBeFormattedFormat)
         }
 
         //displayProducts(productsData,"products");
