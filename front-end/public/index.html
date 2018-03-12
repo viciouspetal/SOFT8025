@@ -94,8 +94,6 @@
                     displayProducts(data, "products");
                 }
             });
-
-
         }
 
         function hideAll() {
@@ -141,13 +139,9 @@
                     alert("Thanks!");
                 }
             });
-
-
         }
 
         function checkout() {
-
-
             $.post(
                 "/checkout",
                 {},
@@ -158,12 +152,13 @@
 
         }
 
-        function deleteCartItem(count) {
-            $.post(
-                "/delete",
-                {cnt: count},
-                function (data) {
-
+        function deleteCartItem(cartId) {
+            $.ajax({
+                    url: "cart/" + cartId,
+                    type: "DELETE",
+                    success: function () {
+                        getCart();
+                    }
                 }
             );
 

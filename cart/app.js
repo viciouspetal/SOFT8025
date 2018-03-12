@@ -2,7 +2,8 @@ var express = require("express")
     , morgan = require("morgan")
     , path = require("path")
     , bodyParser = require("body-parser")
-    , app = express();
+    , app = express()
+    , _ = require('lodash');
 
 
 app.use(morgan('combined'));
@@ -40,14 +41,14 @@ app.post("/add", function (req, res, next) {
     // finding the copies of the product in the existing cart object. Then summing up no of occurrences to form quantity var.
     var found = false;
 
-    c.forEach(function(product) {
-        if(product.productID === obj.productID){
+    c.forEach(function (product) {
+        if (product.productID === obj.productID) {
             found = true;
             product.quantity = parseInt(product.quantity) + parseInt(obj.quantity);
         }
     });
 
-    if(!found){
+    if (!found) {
         c.push(data);
     }
 
@@ -60,19 +61,37 @@ app.post("/add", function (req, res, next) {
 /* toDO */
 app.delete("/cart/:custId/items/:id", function (req, res, next) {
     var body = '';
+    var custId = req.params.custId;
+    var idOfproductToBeFound = parseInt(req.params.id);
+    var found = false;
+    var indexToDelete;
+
+    // identifying the product to be removed. Finding its index in the cart for later deletion
+    cart[custId].forEach(function (product, index) {
+        if (product.productID === idOfproductToBeFound) {
+            found = true;
+            indexToDelete=index;
+        }
+    });
+
+    //removing product from cart array for a given customer
+    if(found) {
+        _.remove(cart[custId], function (object, i) {
+            return i === indexToDelete;
+        });
+    }
     console.log("Delete item from cart: for custId " + req.url + ' ' +
         req.params.id.toString());
     console.log("delete ");
 
     res.send(' ');
 
-
 });
 
 
+
+
 app.get("/cart/:custId/items", function (req, res, next) {
-
-
     var custId = req.params.custId;
     console.log("getCart" + custId);
 
