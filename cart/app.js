@@ -58,37 +58,25 @@ app.post("/add", function (req, res, next) {
 
 });
 
-/* toDO */
 app.delete("/cart/:custId/items/:id", function (req, res, next) {
-    var body = '';
-    var custId = req.params.custId;
-    var idOfproductToBeFound = parseInt(req.params.id);
-    var found = false;
-    var indexToDelete;
+    var customerId = req.params.custId;
 
-    // identifying the product to be removed. Finding its index in the cart for later deletion
-    cart[custId].forEach(function (product, index) {
-        if (product.productID === idOfproductToBeFound) {
-            found = true;
-            indexToDelete=index;
-        }
-    });
+    // identifying the product to be removed. Finding its index in the cart for later deletion.
+    // Using lodash to get away from coding lowest level operations on array manipulation
+    var indexToDelete = _.findIndex(cart[customerId], {productID: parseInt(req.params.id)});
 
-    //removing product from cart array for a given customer
-    if(found) {
-        _.remove(cart[custId], function (object, i) {
+    // removing product from cart array for a given customer
+    if (indexToDelete !== -1) {
+        _.remove(cart[customerId], function (object, i) {
             return i === indexToDelete;
         });
     }
-    console.log("Delete item from cart: for custId " + req.url + ' ' +
-        req.params.id.toString());
+    console.log("*** Delete item from cart: for custId " + req.url + ' ' + req.params.id.toString());
     console.log("delete ");
 
     res.send(' ');
 
 });
-
-
 
 
 app.get("/cart/:custId/items", function (req, res, next) {
