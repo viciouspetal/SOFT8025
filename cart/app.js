@@ -64,10 +64,6 @@ app.delete("/cart/:custId/items/:id", function (req, res, next) {
         req.params.id.toString());
     console.log("delete ");
 
-
-
-
-
     res.send(' ');
 
 
@@ -96,21 +92,3 @@ var server = app.listen(process.env.PORT || 3003, function () {
     var port = server.address().port;
     console.log("App now running in %s mode on port %d", app.get("env"), port);
 });
-
-
-var bla = {
-    'customerId': [
-        {
-            "cartid": '1',
-            "productID": 23,
-            "name": 'car1',
-            "quantity": 1
-        },
-        {
-            "cartid": '1',
-            "productID": 23,
-            "name": 'car1',
-            "quantity": 1
-        }
-    ]
-}
