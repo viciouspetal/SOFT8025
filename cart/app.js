@@ -5,7 +5,6 @@ var express = require("express")
     , app = express()
     , _ = require('lodash');
 
-
 app.use(morgan('combined'));
 app.use(morgan("dev", {}));
 app.use(bodyParser.json());
@@ -40,6 +39,7 @@ app.post("/add", function (req, res, next) {
 
     // finding the copies of the product in the existing cart object. Then summing up no of occurrences to form quantity var.
     var found = false;
+
 
     c.forEach(function (product) {
         if (product.productID === obj.productID) {
