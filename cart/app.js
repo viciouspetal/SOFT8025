@@ -2,8 +2,8 @@ var express = require("express")
     , morgan = require("morgan")
     , path = require("path")
     , bodyParser = require("body-parser")
-    , app = express();
-
+    , app = express()
+    , _ = require('lodash');
 
 app.use(morgan('combined'));
 app.use(morgan("dev", {}));
@@ -40,14 +40,15 @@ app.post("/add", function (req, res, next) {
     // finding the copies of the product in the existing cart object. Then summing up no of occurrences to form quantity var.
     var found = false;
 
-    c.forEach(function(product) {
-        if(product.productID === obj.productID){
+
+    c.forEach(function (product) {
+        if (product.productID === obj.productID) {
             found = true;
             product.quantity = parseInt(product.quantity) + parseInt(obj.quantity);
         }
     });
 
-    if(!found){
+    if (!found) {
         c.push(data);
     }
 
@@ -57,22 +58,28 @@ app.post("/add", function (req, res, next) {
 
 });
 
-/* toDO */
 app.delete("/cart/:custId/items/:id", function (req, res, next) {
-    var body = '';
-    console.log("Delete item from cart: for custId " + req.url + ' ' +
-        req.params.id.toString());
+    var customerId = req.params.custId;
+
+    // identifying the product to be removed. Finding its index in the cart for later deletion.
+    // Using lodash to get away from coding lowest level operations on array manipulation
+    var indexToDelete = _.findIndex(cart[customerId], {productID: parseInt(req.params.id)});
+
+    // removing product from cart array for a given customer
+    if (indexToDelete !== -1) {
+        _.remove(cart[customerId], function (object, i) {
+            return i === indexToDelete;
+        });
+    }
+    console.log("*** Delete item from cart: for custId " + req.url + ' ' + req.params.id.toString());
     console.log("delete ");
 
     res.send(' ');
-
 
 });
 
 
 app.get("/cart/:custId/items", function (req, res, next) {
-
-
     var custId = req.params.custId;
     console.log("getCart" + custId);
 

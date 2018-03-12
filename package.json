@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/viciouspetal/SOFT8025/issues"
   },
-  "homepage": "https://github.com/viciouspetal/SOFT8025#readme"
+  "homepage": "https://github.com/viciouspetal/SOFT8025#readme",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
 }
