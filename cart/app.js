@@ -2,7 +2,6 @@ var express = require("express")
     , morgan = require("morgan")
     , path = require("path")
     , bodyParser = require("body-parser")
-
     , app = express();
 
 
@@ -17,11 +16,8 @@ app.post("/add", function (req, res, next) {
     var obj = req.body;
     console.log("add ");
     console.log("Attempting to add to cart: " + JSON.stringify(req.body));
-
-
-    //  var obj = JSON.parse(body);
-
-    //       console.log('addToCart id '+id)
+    // var obj = JSON.parse(body);
+    // console.log('addToCart id '+id)
     var max = 0;
     var ind = 0;
     if (cart["" + obj.custId] === undefined)
@@ -40,10 +36,22 @@ app.post("/add", function (req, res, next) {
         "quantity": obj.quantity
     };
     console.log(JSON.stringify(data));
-    c.push(data);
+
+    // finding the copies of the product in the existing cart object. Then summing up no of occurrences to form quantity var.
+    var found = false;
+
+    c.forEach(function(product) {
+        if(product.productID === obj.productID){
+            found = true;
+            product.quantity = parseInt(product.quantity) + parseInt(obj.quantity);
+        }
+    });
+
+    if(!found){
+        c.push(data);
+    }
 
     res.status(201);
-
     res.send("");
 
 
@@ -88,3 +96,21 @@ var server = app.listen(process.env.PORT || 3003, function () {
     var port = server.address().port;
     console.log("App now running in %s mode on port %d", app.get("env"), port);
 });
+
+
+var bla = {
+    'customerId': [
+        {
+            "cartid": '1',
+            "productID": 23,
+            "name": 'car1',
+            "quantity": 1
+        },
+        {
+            "cartid": '1',
+            "productID": 23,
+            "name": 'car1',
+            "quantity": 1
+        }
+    ]
+}
