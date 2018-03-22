@@ -11,7 +11,7 @@ var headers = [
 
 
 var db = mysql.createConnection({
-    host:     '192.168.99.100',
+    host:     'localhost',
     user:     'root',
     password: 'asdf1234',
     database: 'shop'
